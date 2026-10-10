@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 580" width="1280" height="580" role="img" aria-label="Stack do agente RAG de legislação em cinco camadas: ingestão no lakehouse, busca pública, governança e escopo, agente e LLM, serving e qualidade; mais orquestração e entrega.">
+  <style>
+    .bg{fill:#f3f4f5}
+    .zone{fill:#fbfbfc;stroke:#d3d7dc;stroke-width:1.3}
+    .zl{fill:#737b84;font:600 9.5px "Segoe UI",Arial,sans-serif;letter-spacing:.13em}
+    .box{fill:#fff;stroke:#cfd4d9;stroke-width:1.2}
+    .bronze{fill:#f4eee8;stroke:#9a7656;stroke-width:1.4}
+    .silver{fill:#eff1f3;stroke:#7c8691;stroke-width:1.4}
+    .gold{fill:#f4f0e1;stroke:#93803f;stroke-width:1.4}
+    .ai{fill:#edf0f4;stroke:#5b6f86;stroke-width:1.4}
+    .acc{fill:#e6ebef;stroke:#3d4f5c;stroke-width:1.8}
+    .t{fill:#1b1f24;font:600 12.5px "Segoe UI",Arial,sans-serif}
+    .s{fill:#4d555e;font:10.5px "Segoe UI",Arial,sans-serif}
+    .flow{stroke:#737b84;stroke-width:1.4;fill:none}
+    .nb{fill:#3d4f5c}.nt{fill:#fff;font:600 10.5px Consolas,monospace}
+    .h1{fill:#1b1f24;font:600 17px "Segoe UI",Arial,sans-serif}
+    .h2{fill:#4d555e;font:11px "Segoe UI",Arial,sans-serif}
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path fill="#737b84" d="M0,0 L10,5 L0,10 z"/></marker>
+  </defs>
+  <rect class="bg" width="1280" height="580"/>
+  <text class="h1" x="24" y="26">Stack · agente RAG de legislação em Azure Databricks</text>
+  <text class="h2" x="1256" y="26" text-anchor="end">cada peça e o papel que ela cumpre no produto</text>
+
+  <!-- 1 ingestão -->
+  <rect class="zone" x="24" y="44" width="232" height="356" rx="6"/>
+  <circle class="nb" cx="44" cy="66" r="9"/><text class="nt" x="44" y="70" text-anchor="middle">1</text>
+  <text class="zl" x="60" y="70">INGESTÃO · LAKEHOUSE</text>
+  <rect class="bronze" x="40" y="90" width="200" height="88" rx="4"/><text class="t" x="52" y="116">Auto Loader</text><text class="s" x="52" y="136">binaryFile + MERGE por caminho</text><text class="s" x="52" y="152">reprocessar não duplica</text>
+  <rect class="silver" x="40" y="194" width="200" height="88" rx="4"/><text class="t" x="52" y="220">Delta Lake + CDF</text><text class="s" x="52" y="240">Change Data Feed nas silvers</text><text class="s" x="52" y="256">processa só o que mudou</text>
+  <rect class="silver" x="40" y="298" width="200" height="88" rx="4"/><text class="t" x="52" y="324">ai_parse_document</text><text class="s" x="52" y="344">PDF → VARIANT, com quarentena</text><text class="s" x="52" y="360">chunking por seção do texto</text>
+
+  <!-- 2 busca -->
+  <rect class="zone" x="274" y="44" width="232" height="356" rx="6"/>
+  <circle class="nb" cx="294" cy="66" r="9"/><text class="nt" x="294" y="70" text-anchor="middle">2</text>
+  <text class="zl" x="310" y="70">BUSCA PÚBLICA</text>
+  <rect class="ai" x="290" y="90" width="200" height="88" rx="4"/><text class="t" x="302" y="116">Vector Search</text><text class="s" x="302" y="136">índice Delta-Sync (TRIGGERED)</text><text class="s" x="302" y="152">sync acionado pelo job</text>
+  <rect class="ai" x="290" y="194" width="200" height="88" rx="4"/><text class="t" x="302" y="220">Consulta HYBRID</text><text class="s" x="302" y="240">semântica + termo exato</text><text class="s" x="302" y="256">"NE-01", "art. 4" casam</text>
+  <rect class="ai" x="290" y="298" width="200" height="88" rx="4"/><text class="t" x="302" y="324">Embeddings gerenciados</text><text class="s" x="302" y="344">endpoint de embedding</text><text class="s" x="302" y="360">nunca filtrada por usuário</text>
+
+  <!-- 3 governança -->
+  <rect class="zone" x="524" y="44" width="232" height="356" rx="6"/>
+  <circle class="nb" cx="544" cy="66" r="9"/><text class="nt" x="544" y="70" text-anchor="middle">3</text>
+  <text class="zl" x="560" y="70">GOVERNANÇA · ESCOPO</text>
+  <rect class="gold" x="540" y="90" width="200" height="88" rx="4"/><text class="t" x="552" y="116">Unity Catalog</text><text class="s" x="552" y="136">catálogo, volumes, linhagem</text><text class="s" x="552" y="152">permissão por objeto</text>
+  <rect class="gold" x="540" y="194" width="200" height="88" rx="4"/><text class="t" x="552" y="220">Funções SQL do UC</text><text class="s" x="552" y="240">ferramentas B (interna) e C</text><text class="s" x="552" y="256">única porta para o escopo</text>
+  <rect class="gold" x="540" y="298" width="200" height="88" rx="4"/><text class="t" x="552" y="324">RLS por lista de acesso</text><text class="s" x="552" y="344">identidade → unidades</text><text class="s" x="552" y="360">sem identidade, vazio</text>
+
+  <!-- 4 agente -->
+  <rect class="zone" x="774" y="44" width="232" height="356" rx="6"/>
+  <circle class="nb" cx="794" cy="66" r="9"/><text class="nt" x="794" y="70" text-anchor="middle">4</text>
+  <text class="zl" x="810" y="70">AGENTE · LLM</text>
+  <rect class="acc" x="790" y="90" width="200" height="88" rx="4"/><text class="t" x="802" y="116">Foundation Model API</text><text class="s" x="802" y="136">Claude, pago por token</text><text class="s" x="802" y="152">troca em uma linha do YAML</text>
+  <rect class="acc" x="790" y="194" width="200" height="88" rx="4"/><text class="t" x="802" y="220">MLflow 3 ResponsesAgent</text><text class="s" x="802" y="240">contrato Responses</text><text class="s" x="802" y="256">models-from-code</text>
+  <rect class="acc" x="790" y="298" width="200" height="88" rx="4"/><text class="t" x="802" y="324">Roteador + guardrails</text><text class="s" x="802" y="344">Python puro, ports &amp; adapters</text><text class="s" x="802" y="360">regras em código, com testes</text>
+
+  <!-- 5 serving -->
+  <rect class="zone" x="1024" y="44" width="232" height="356" rx="6"/>
+  <circle class="nb" cx="1044" cy="66" r="9"/><text class="nt" x="1044" y="70" text-anchor="middle">5</text>
+  <text class="zl" x="1060" y="70">SERVING · QUALIDADE</text>
+  <rect class="box" x="1040" y="90" width="200" height="88" rx="4"/><text class="t" x="1052" y="116">Model Serving</text><text class="s" x="1052" y="136">endpoint REST do agente</text><text class="s" x="1052" y="152">auth passthrough nos recursos</text>
+  <rect class="box" x="1040" y="194" width="200" height="88" rx="4"/><text class="t" x="1052" y="220">MLflow Tracing</text><text class="s" x="1052" y="240">rastro por resposta</text><text class="s" x="1052" y="256">rota, busca, escopo, LLM</text>
+  <rect class="box" x="1040" y="298" width="200" height="88" rx="4"/><text class="t" x="1052" y="324">mlflow.genai.evaluate()</text><text class="s" x="1052" y="344">recall@10, juiz calibrado</text><text class="s" x="1052" y="360">mede antes de ligar ajustes</text>
+
+  <!-- setas entre camadas -->
+  <path class="flow" d="M257 222 H273" marker-end="url(#a)"/>
+  <path class="flow" d="M507 222 H523" marker-end="url(#a)"/>
+  <path class="flow" d="M757 222 H773" marker-end="url(#a)"/>
+  <path class="flow" d="M1007 222 H1023" marker-end="url(#a)"/>
+
+  <!-- orquestração -->
+  <rect class="zone" x="24" y="416" width="1232" height="118" rx="6"/>
+  <text class="zl" x="40" y="440">ORQUESTRAÇÃO · ENTREGA</text>
+  <rect class="box" x="40" y="454" width="388" height="62" rx="4"/><text class="t" x="52" y="480">Azure Data Factory</text><text class="s" x="52" y="500">aciona a ingestão a partir das fontes da empresa</text>
+  <rect class="box" x="446" y="454" width="388" height="62" rx="4"/><text class="t" x="458" y="480">Declarative Automation Bundles</text><text class="s" x="458" y="500">jobs e recursos como código, alvos dev e prd</text>
+  <rect class="box" x="852" y="454" width="388" height="62" rx="4"/><text class="t" x="864" y="480">CI com pytest + smoke</text><text class="s" x="864" y="500">roteador, guardrails e no-spoof a cada push</text>
+
+  <text class="h2" x="24" y="560">Camadas 1–3 rodam offline (preparam o acervo e o cadastro); 4–5 respondem em tempo real.</text>
+  <text class="h2" x="1256" y="560" text-anchor="end">blueprint sanitizado · sem dados reais</text>
+</svg>

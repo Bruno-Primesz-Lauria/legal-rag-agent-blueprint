@@ -1,0 +1,16 @@
+{
+  "_comment": "Cadastro FICTÍCIO. Escopo (in_scope) e atendimento (contagem de artigos) são eixos separados.",
+  "acl": {
+    "maria.exemplo@empresa-ficticia.com": "unidade-norte",
+    "carlos.exemplo@empresa-ficticia.com": "unidade-sul"
+  },
+  "units": {
+    "unidade-norte": {
+      "NE-01": {"articles_total": 4, "compliant": 3, "partial": 1, "non_compliant": 0, "not_applicable": 0},
+      "NE-02": {"articles_total": 6, "compliant": 4, "partial": 0, "non_compliant": 2, "not_applicable": 0}
+    },
+    "unidade-sul": {
+      "NE-03": {"articles_total": 5, "compliant": 5, "partial": 0, "non_compliant": 0, "not_applicable": 0}
+    }
+  }
+}

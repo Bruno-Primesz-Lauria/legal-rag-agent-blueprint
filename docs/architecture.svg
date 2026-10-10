@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 990" width="1280" height="990" role="img" aria-label="Arquitetura do agente RAG de legislação: caminho offline Medallion até o índice de busca; entrada pelo chat e proxy confiável; roteador e pipeline fixo; busca pública e escopo privado por funções governadas; conferência em código; identidade por canal separado que nunca passa pelo modelo.">
+  <style>
+    .bg{fill:#f3f4f5}
+    .zone{fill:#fbfbfc;stroke:#d3d7dc;stroke-width:1.3}
+    .zl{fill:#737b84;font:600 9.5px "Segoe UI",Arial,sans-serif;letter-spacing:.13em}
+    .box{fill:#fff;stroke:#cfd4d9;stroke-width:1.2}
+    .bronze{fill:#f4eee8;stroke:#9a7656;stroke-width:1.4}
+    .silver{fill:#eff1f3;stroke:#7c8691;stroke-width:1.4}
+    .gold{fill:#f4f0e1;stroke:#93803f;stroke-width:1.4}
+    .ai{fill:#edf0f4;stroke:#5b6f86;stroke-width:1.4}
+    .acc{fill:#e6ebef;stroke:#3d4f5c;stroke-width:1.8}
+    .t{fill:#1b1f24;font:600 12.5px "Segoe UI",Arial,sans-serif}
+    .s{fill:#4d555e;font:10.5px "Segoe UI",Arial,sans-serif}
+    .c{fill:#4a5d6b;font:9.5px Consolas,"SF Mono",monospace}
+    .flow{stroke:#737b84;stroke-width:1.4;fill:none}
+    .fl{fill:#737b84;font:9px Consolas,monospace}
+    .upn{stroke:#8e4b42;stroke-width:1.8;stroke-dasharray:7 5;fill:none}
+    .ul{fill:#8e4b42;font:10px Consolas,monospace}
+    .obs{stroke:#737b84;stroke-width:1.3;stroke-dasharray:2 4;fill:none}
+    .nb{fill:#3d4f5c}.nt{fill:#fff;font:600 10.5px Consolas,monospace}
+    .h1{fill:#1b1f24;font:600 17px "Segoe UI",Arial,sans-serif}
+    .h2{fill:#4d555e;font:11px "Segoe UI",Arial,sans-serif}
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path fill="#737b84" d="M0,0 L10,5 L0,10 z"/></marker>
+    <marker id="u" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path fill="#8e4b42" d="M0,0 L10,5 L0,10 z"/></marker>
+  </defs>
+  <rect class="bg" width="1280" height="990"/>
+  <text class="h1" x="24" y="24">Agente RAG de legislação · escopo por usuário · Databricks</text>
+  <text class="h2" x="1256" y="24" text-anchor="end">blueprint sanitizado · sem dados reais</text>
+
+  <!-- offline -->
+  <rect class="zone" x="24" y="36" width="1232" height="126" rx="6"/>
+  <text class="zl" x="40" y="60">CAMINHO OFFLINE · LAKEHOUSE MEDALLION · COMO O ACERVO É PREPARADO</text>
+  <rect class="box" x="40" y="80" width="168" height="58" rx="4"/><text class="t" x="52" y="104">Volume UC</text><text class="s" x="52" y="122">PDFs de legislação</text>
+  <rect class="bronze" x="238" y="80" width="168" height="58" rx="4"/><text class="t" x="250" y="104">bronze · pdf_raw</text><text class="s" x="250" y="122">Auto Loader (binário)</text>
+  <rect class="silver" x="436" y="80" width="168" height="58" rx="4"/><text class="t" x="448" y="104">silver · pdf</text><text class="s" x="448" y="122">vínculo + histórico (CDF)</text>
+  <rect class="silver" x="634" y="80" width="168" height="58" rx="4"/><text class="t" x="646" y="104">silver · parsed</text><text class="s" x="646" y="122">ai_parse_document</text>
+  <rect class="silver" x="832" y="80" width="168" height="58" rx="4"/><text class="t" x="844" y="104">silver · chunks</text><text class="s" x="844" y="122">trechos com seção</text>
+  <rect class="ai" x="1030" y="80" width="168" height="58" rx="4"/><text class="t" x="1042" y="104">Delta-Sync</text><text class="s" x="1042" y="122">sync acionado pelo job</text>
+  <line class="flow" x1="212" y1="109" x2="232" y2="109" marker-end="url(#a)"/>
+  <line class="flow" x1="410" y1="109" x2="430" y2="109" marker-end="url(#a)"/>
+  <line class="flow" x1="608" y1="109" x2="628" y2="109" marker-end="url(#a)"/>
+  <line class="flow" x1="806" y1="109" x2="826" y2="109" marker-end="url(#a)"/>
+  <line class="flow" x1="1004" y1="109" x2="1024" y2="109" marker-end="url(#a)"/>
+  <line class="flow" x1="1114" y1="140" x2="1114" y2="226" marker-end="url(#a)"/>
+  <text class="fl" x="1122" y="188">alimenta o índice</text>
+
+  <!-- entrada -->
+  <rect class="zone" x="24" y="192" width="286" height="364" rx="6"/>
+  <text class="zl" x="40" y="216">ENTRADA</text>
+  <rect class="box" x="44" y="232" width="246" height="56" rx="4"/><text class="t" x="58" y="258">Usuário</text><text class="s" x="58" y="276">pergunta em português</text>
+  <circle class="nb" cx="272" cy="250" r="10"/><text class="nt" x="272" y="254" text-anchor="middle">1</text>
+  <rect class="box" x="44" y="310" width="246" height="52" rx="4"/><text class="t" x="58" y="334">Chat ou aplicação</text><text class="s" x="58" y="352">reenvia o histórico (stateless)</text>
+  <rect class="box" x="44" y="384" width="246" height="68" rx="4"/><text class="t" x="58" y="408">Proxy confiável</text><text class="s" x="58" y="424">confere quem é o usuário</text><text class="c" x="58" y="440">injeta UPN + request_id</text>
+  <rect class="acc" x="44" y="470" width="246" height="64" rx="4"/><text class="t" x="58" y="492">Endpoint Model Serving</text><text class="c" x="58" y="510">API Responses (input/output)</text><text class="s" x="58" y="526">canário por versão · scale-to-zero</text>
+  <line class="flow" x1="167" y1="290" x2="167" y2="304" marker-end="url(#a)"/>
+  <line class="flow" x1="167" y1="364" x2="167" y2="378" marker-end="url(#a)"/>
+  <line class="flow" x1="167" y1="454" x2="167" y2="464" marker-end="url(#a)"/>
+
+  <!-- cérebro -->
+  <rect class="zone" x="330" y="192" width="352" height="364" rx="6"/>
+  <text class="zl" x="346" y="216">O CÉREBRO</text>
+  <rect class="box" x="350" y="230" width="312" height="30" rx="4"/><text class="s" x="364" y="250">Roteador · 6 intenções · regras antes do LLM</text>
+  <rect class="box" x="350" y="271" width="312" height="30" rx="4"/><text class="s" x="364" y="291">Prompts · sistema, resumo, detalhe, few-shot</text>
+  <rect class="box" x="350" y="312" width="312" height="30" rx="4"/><text class="s" x="364" y="332">Config-as-code · k = 5 · HYBRID · resumo ≤ 320 tokens</text>
+  <rect class="box" x="350" y="354" width="312" height="46" rx="4"/><text class="t" x="364" y="376">Modelo base · Claude (Foundation Model API)</text><text class="c" x="364" y="392">llm_endpoint · único ponto de troca</text>
+  <line class="flow" x1="506" y1="402" x2="506" y2="412" marker-end="url(#a)"/>
+  <rect class="acc" x="350" y="416" width="312" height="124" rx="5"/>
+  <text class="t" x="364" y="444">Agente de Legislação</text>
+  <text class="s" x="364" y="464">MLflow 3 ResponsesAgent · pipeline fixo</text>
+  <text class="s" x="364" y="482">roteia → recupera → cruza → redige</text>
+  <text class="c" x="364" y="502">1 busca · 1 escopo · 1 redação</text>
+  <text class="c" x="364" y="522">o UPN não aparece para o modelo</text>
+  <circle class="nb" cx="644" cy="434" r="10"/><text class="nt" x="644" y="438" text-anchor="middle">2</text>
+  <line class="flow" x1="292" y1="502" x2="344" y2="502" marker-end="url(#a)"/>
+  <text class="fl" x="318" y="494" text-anchor="middle">pergunta</text>
+
+  <!-- norma pública -->
+  <rect class="zone" x="702" y="192" width="554" height="152" rx="6"/>
+  <text class="zl" x="718" y="216">A NORMA · PÚBLICA, IGUAL PARA TODOS</text>
+  <rect class="acc" x="722" y="232" width="212" height="92" rx="5"/><text class="t" x="736" y="258">Buscar a norma</text><text class="c" x="736" y="276">ferramenta A · retriever</text><text class="s" x="736" y="294">busca híbrida · k = 5</text><text class="s" x="736" y="312">sem filtro por usuário</text>
+  <circle class="nb" cx="916" cy="250" r="10"/><text class="nt" x="916" y="254" text-anchor="middle">3</text>
+  <rect class="ai" x="1030" y="232" width="212" height="92" rx="4"/><text class="t" x="1044" y="258">Índice Vector Search</text><text class="c" x="1044" y="276">silver.legal_chunks_idx</text><text class="c" x="1044" y="293">Delta-Sync · TRIGGERED</text><text class="s" x="1044" y="312">embeddings gerenciados</text>
+  <line class="flow" x1="940" y1="262" x2="1024" y2="262" marker-end="url(#a)"/><text class="fl" x="982" y="254" text-anchor="middle">consulta</text>
+  <line class="flow" x1="1024" y1="300" x2="940" y2="300" marker-end="url(#a)"/><text class="fl" x="982" y="316" text-anchor="middle">traz 5 trechos</text>
+  <polyline class="flow" points="662,432 692,432 692,278 716,278" marker-end="url(#a)"/>
+  <text class="fl" x="700" y="364">busca a norma</text>
+
+  <!-- cliente privado -->
+  <rect class="zone" x="702" y="374" width="554" height="344" rx="6"/>
+  <text class="zl" x="718" y="398">O CLIENTE · PRIVADO, DEPENDE DE QUEM PERGUNTA</text>
+  <rect class="acc" x="722" y="410" width="212" height="96" rx="5"/><text class="t" x="736" y="436">Comparar com a unidade</text><text class="c" x="736" y="456">ferramenta C · coverage</text><text class="s" x="736" y="474">recebe só os ids das normas</text><text class="s" x="736" y="492">que acabou de achar</text>
+  <circle class="nb" cx="916" cy="428" r="10"/><text class="nt" x="916" y="432" text-anchor="middle">4</text>
+  <rect class="gold" x="1030" y="410" width="212" height="54" rx="4"/><text class="t" x="1044" y="432">Função governada (UC)</text><text class="c" x="1044" y="452">gold.fn_compare_coverage</text>
+  <rect class="gold" x="1030" y="492" width="212" height="62" rx="4"/><text class="t" x="1044" y="514">Consulta interna</text><text class="c" x="1044" y="532">gold.fn_query_client_scope</text><text class="s" x="1044" y="548">o agente não a enxerga</text>
+  <rect class="gold" x="1030" y="580" width="212" height="54" rx="4"/><text class="t" x="1044" y="602">Fato de conformidade</text><text class="c" x="1044" y="620">gold.f_compliance</text>
+  <rect class="gold" x="1030" y="660" width="212" height="50" rx="4"/><text class="t" x="1044" y="682">Lista de acesso (RLS)</text><text class="c" x="1044" y="700">gold.d_user_acl</text>
+  <line class="flow" x1="940" y1="437" x2="1024" y2="437" marker-end="url(#a)"/><text class="fl" x="982" y="429" text-anchor="middle">ids das normas</text>
+  <line class="flow" x1="1136" y1="468" x2="1136" y2="486" marker-end="url(#a)"/><text class="fl" x="1144" y="482">reusa</text>
+  <line class="flow" x1="1136" y1="558" x2="1136" y2="574" marker-end="url(#a)"/><text class="fl" x="1144" y="571">lê</text>
+  <line class="flow" x1="1136" y1="638" x2="1136" y2="654" marker-end="url(#a)"/><text class="fl" x="1144" y="651">filtra por</text>
+  <line class="flow" x1="662" y1="470" x2="716" y2="470" marker-end="url(#a)"/><text class="fl" x="689" y="462" text-anchor="middle">compara</text>
+
+  <!-- canal da identidade -->
+  <polyline class="upn" points="44,418 14,418 14,954 836,954 836,512" marker-end="url(#u)"/>
+  <text class="ul" x="425" y="947" text-anchor="middle">identidade (UPN) · injetada por fora; o modelo nunca a vê</text>
+
+  <!-- saída -->
+  <polyline class="flow" points="506,542 506,706 194,706 194,798" marker-end="url(#a)"/>
+  <text class="fl" x="350" y="698" text-anchor="middle">texto redigido (ou resposta direta da rota)</text>
+  <rect class="zone" x="24" y="770" width="656" height="160" rx="6"/>
+  <text class="zl" x="40" y="792">SAÍDA</text>
+  <rect class="acc" x="44" y="804" width="300" height="112" rx="5"/>
+  <text class="t" x="58" y="830">Conferência automática</text>
+  <text class="s" x="58" y="850">sem fonte → recusa fundamentada</text>
+  <text class="s" x="58" y="868">citação sem evidência → removida</text>
+  <text class="s" x="58" y="886">escopo sem identidade → removido</text>
+  <text class="c" x="58" y="906">no código, não no prompt</text>
+  <circle class="nb" cx="326" cy="822" r="10"/><text class="nt" x="326" y="826" text-anchor="middle">5</text>
+  <line class="flow" x1="348" y1="860" x2="388" y2="860" marker-end="url(#a)"/>
+  <rect class="box" x="392" y="804" width="268" height="112" rx="4"/>
+  <text class="t" x="406" y="830">Resposta ao usuário</text>
+  <text class="s" x="406" y="850">texto com citação arquivo + seção</text>
+  <text class="s" x="406" y="868">resumo no 1º turno; detalhe sob pedido</text>
+  <text class="c" x="406" y="888">custom_outputs: intenção, citações,</text>
+  <text class="c" x="406" y="904">escopo ≠ conformidade, request_id</text>
+
+  <!-- observabilidade -->
+  <rect class="ai" x="1000" y="770" width="256" height="100" rx="4"/>
+  <text class="t" x="1014" y="796">MLflow Tracing</text>
+  <text class="s" x="1014" y="816">cada passo do agente vira</text>
+  <text class="s" x="1014" y="834">registro consultável: rota,</text>
+  <text class="s" x="1014" y="852">busca, escopo e latência</text>
+  <line class="obs" x1="1128" y1="722" x2="1128" y2="764"/>
+
+  <!-- legenda -->
+  <line class="flow" x1="24" y1="972" x2="50" y2="972"/><text class="s" x="56" y="976">caminho da pergunta</text>
+  <line class="upn" x1="190" y1="972" x2="216" y2="972"/><text class="s" x="222" y="976">identidade, nunca passa pelo modelo</text>
+  <line class="obs" x1="430" y1="972" x2="456" y2="972"/><text class="s" x="462" y="976">observabilidade</text>
+  <rect class="bronze" x="572" y="966" width="16" height="11" rx="3"/><text class="s" x="594" y="976">Bronze</text>
+  <rect class="silver" x="642" y="966" width="16" height="11" rx="3"/><text class="s" x="664" y="976">Silver</text>
+  <rect class="gold" x="708" y="966" width="16" height="11" rx="3"/><text class="s" x="730" y="976">Gold (Unity Catalog)</text>
+  <rect class="ai" x="846" y="966" width="16" height="11" rx="3"/><text class="s" x="868" y="976">serviço de IA Databricks</text>
+  <rect class="acc" x="1012" y="966" width="16" height="11" rx="3"/><text class="s" x="1034" y="976">o que é do agente</text>
+</svg>

@@ -1,0 +1,26 @@
+# =====================================================================
+# agent_config.yaml — único ponto de configuração do agente (ModelConfig)
+# Viaja com o modelo registrado no MLflow. Placeholders <catalog> são
+# substituídos pelo seu catálogo do Unity Catalog.
+# =====================================================================
+
+# --- Foundation Model: único ponto de troca do LLM ---
+llm_endpoint: databricks-claude-sonnet   # trocar de modelo = trocar esta linha
+
+# --- Orquestração conversacional ---
+router_enabled: true          # false => toda mensagem segue o pipeline legal
+answer_mode_default: summary  # summary (1º turno) | detail (sob pedido)
+max_tokens_summary: 320
+max_tokens_detail: 1024
+max_tokens_router: 32         # o LLM só desempata o roteador
+max_tokens_smalltalk: 128
+chunk_excerpt_chars: 320      # o LLM vê um recorte; os guardrails usam o trecho inteiro
+
+# --- Ferramenta A: busca no acervo público (Vector Search) ---
+vs_index: <catalog>.silver.legal_chunks_idx
+k: 5
+query_type: HYBRID            # semântica + palavra exata
+retrieval_min_score: null     # NÃO chutar: calibrar com o harness de avaliação
+
+# --- Ferramenta C: escopo da unidade (função SQL governada) ---
+fn_compare_coverage: <catalog>.gold.fn_compare_coverage

@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 1090" width="1280" height="1090" role="img" aria-label="Fluxo do agente por mensagem: envelope separa conversa e identidade; roteador com regras, desempate por LLM e fail-safe; quatro rotas sem busca; pipeline fixo com ferramenta A de busca, recusa sem trecho, ferramenta C de escopo com UPN injetado por código e redação única; guardrails em código; resposta Responses e rastro MLflow.">
+  <style>
+    .bg{fill:#f3f4f5}
+    .zone{fill:#fbfbfc;stroke:#d3d7dc;stroke-width:1.3}
+    .zl{fill:#737b84;font:600 9.5px "Segoe UI",Arial,sans-serif;letter-spacing:.13em}
+    .box{fill:#fff;stroke:#cfd4d9;stroke-width:1.2}
+    .tool{fill:#f4f0e1;stroke:#93803f;stroke-width:1.5}
+    .llm{fill:#e6ebef;stroke:#3d4f5c;stroke-width:1.6}
+    .guard{fill:#f6eceb;stroke:#8e4b42;stroke-width:1.5}
+    .t{fill:#1b1f24;font:600 12.5px "Segoe UI",Arial,sans-serif}
+    .s{fill:#4d555e;font:10.5px "Segoe UI",Arial,sans-serif}
+    .c{fill:#4a5d6b;font:10px Consolas,"SF Mono",monospace}
+    .tag{font:600 8.5px Consolas,monospace;letter-spacing:.08em}
+    .flow{stroke:#737b84;stroke-width:1.4;fill:none}
+    .fl{fill:#737b84;font:9.5px Consolas,monospace}
+    .upn{stroke:#8e4b42;stroke-width:1.8;stroke-dasharray:7 5;fill:none}
+    .ul{fill:#8e4b42;font:10px Consolas,monospace}
+    .nb{fill:#3d4f5c}.nt{fill:#fff;font:600 10.5px Consolas,monospace}
+    .h1{fill:#1b1f24;font:600 17px "Segoe UI",Arial,sans-serif}
+    .h2{fill:#4d555e;font:11px "Segoe UI",Arial,sans-serif}
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path fill="#737b84" d="M0,0 L10,5 L0,10 z"/></marker>
+    <marker id="u" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path fill="#8e4b42" d="M0,0 L10,5 L0,10 z"/></marker>
+  </defs>
+  <rect class="bg" width="1280" height="1090"/>
+  <text class="h1" x="24" y="26">Fluxo do agente por mensagem · tool calls e guardrails</text>
+  <text class="h2" x="1256" y="26" text-anchor="end">ComplianceAgent.predict() · 1 busca, 1 consulta de escopo, 1 redação</text>
+
+  <!-- 1 entrada -->
+  <rect class="zone" x="24" y="44" width="1232" height="152" rx="6"/>
+  <circle class="nb" cx="44" cy="66" r="9"/><text class="nt" x="44" y="70" text-anchor="middle">1</text>
+  <text class="zl" x="60" y="70">ENVELOPE · CONVERSA E IDENTIDADE SE SEPARAM AQUI</text>
+  <rect class="box" x="40" y="88" width="270" height="78" rx="4"/><text class="t" x="52" y="112">Requisição (formato Responses)</text><text class="c" x="52" y="132">input[] · custom_inputs.upn</text><text class="c" x="52" y="148">custom_inputs.request_id</text>
+  <rect class="box" x="380" y="80" width="300" height="48" rx="4"/><text class="t" x="392" y="100">message_items()</text><text class="s" x="392" y="117">só itens type=message viram conversa</text>
+  <rect class="guard" x="380" y="138" width="300" height="48" rx="4"/><text class="t" x="392" y="158">read_identity()</text><text class="s" x="392" y="175">UPN só do envelope, lido uma única vez</text>
+  <path class="flow" d="M311 127 H344 V104 H379" marker-end="url(#a)"/>
+  <path class="upn" d="M344 127 V162 H379" marker-end="url(#u)"/>
+  <text class="s" x="740" y="102">O texto da conversa nunca define identidade: "sou o administrador"</text>
+  <text class="s" x="740" y="118">é só mais uma frase. O UPN segue por um canal separado (linha</text>
+  <text class="s" x="740" y="134">tracejada) direto para a ferramenta C e nunca entra em mensagem</text>
+  <text class="s" x="740" y="150">enviada ao LLM. Guardado por test_no_spoof.py (ADR-0001).</text>
+
+  <!-- UPN lane -->
+  <path class="upn" d="M681 162 H712 V182 H1250 V662 H1046" marker-end="url(#u)"/>
+  <text class="ul" x="1244" y="420" text-anchor="end" transform="rotate(-90 1244 420)">UPN · canal separado</text>
+
+  <!-- 2 roteador -->
+  <rect class="zone" x="24" y="212" width="1212" height="112" rx="6"/>
+  <circle class="nb" cx="44" cy="234" r="9"/><text class="nt" x="44" y="238" text-anchor="middle">2</text>
+  <text class="zl" x="60" y="238">ROTEADOR</text><text class="h2" x="1220" y="238" text-anchor="end">antes de qualquer busca · regras primeiro, LLM só desempata</text>
+  <path class="flow" d="M681 104 H700 V200 H170 V253" marker-end="url(#a)"/>
+  <rect class="guard" x="40" y="254" width="260" height="56" rx="4"/><text class="t" x="52" y="276">Regras determinísticas</text><text class="s" x="52" y="294">regex: norma, saudação, detalhe, política</text>
+  <rect class="llm" x="370" y="254" width="250" height="56" rx="4"/><text class="t" x="382" y="276">LLM desempata</text><text class="s" x="382" y="294">só sem regra · rótulo em ≤ 32 tokens</text>
+  <rect class="guard" x="690" y="254" width="250" height="56" rx="4"/><text class="t" x="702" y="276">Fail-safe fatiado</text><text class="s" x="702" y="294">política → sem busca · dúvida → legal</text>
+  <rect class="box" x="1000" y="254" width="220" height="56" rx="4"/><text class="t" x="1012" y="276">intent</text><text class="s" x="1012" y="294">1 de 6 rotas</text>
+  <path class="flow" d="M301 282 H369" marker-end="url(#a)"/><text class="fl" x="308" y="276">sem regra</text>
+  <path class="flow" d="M621 282 H689" marker-end="url(#a)"/>
+  <path class="flow" d="M941 282 H999" marker-end="url(#a)"/>
+  <path class="flow" d="M170 311 V318 H1110 V311" marker-end="url(#a)"/><rect x="548" y="312" width="44" height="12" fill="#fbfbfc"/><text class="fl" x="570" y="321" text-anchor="middle">casou</text>
+
+  <!-- fan-out -->
+  <path class="flow" d="M1180 311 V332 H262 V392 H52 V700"/>
+  <path class="flow" d="M730 332 V395" marker-end="url(#a)"/>
+  <text class="fl" x="272" y="349">adversarial · out_of_domain · smalltalk · reformulate</text>
+  <text class="fl" x="740" y="352">legal · expand</text>
+
+  <!-- 3 rotas sem busca -->
+  <rect class="zone" x="24" y="356" width="476" height="420" rx="6"/>
+  <circle class="nb" cx="44" cy="378" r="9"/><text class="nt" x="44" y="382" text-anchor="middle">3</text>
+  <text class="zl" x="60" y="382">ROTAS SEM BUSCA</text><text class="h2" x="484" y="382" text-anchor="end">0 chamadas ao acervo</text>
+  <path class="flow" d="M52 432 H169" marker-end="url(#a)"/><text class="c" x="60" y="426">adversarial</text>
+  <rect class="guard" x="170" y="404" width="314" height="56" rx="4"/><text class="t" x="182" y="426">Recusa canônica</text><text class="s" x="182" y="444">texto fixo · 0 buscas · 0 chamadas ao LLM</text>
+  <path class="flow" d="M52 512 H169" marker-end="url(#a)"/><text class="c" x="60" y="506">out_of_domain</text>
+  <rect class="guard" x="170" y="484" width="314" height="56" rx="4"/><text class="t" x="182" y="506">Recusa de domínio</text><text class="s" x="182" y="524">texto fixo · 0 buscas · 0 chamadas ao LLM</text>
+  <path class="flow" d="M52 592 H169" marker-end="url(#a)"/><text class="c" x="60" y="586">smalltalk</text>
+  <rect class="llm" x="170" y="564" width="314" height="56" rx="4"/><text class="t" x="182" y="586">LLM curto</text><text class="s" x="182" y="604">saudação/ajuda · ≤ 128 tokens · sem acervo</text>
+  <path class="flow" d="M52 700 H169" marker-end="url(#a)"/><text class="c" x="60" y="694">reformulate</text>
+  <rect class="llm" x="170" y="644" width="314" height="50" rx="4"/><text class="t" x="182" y="664">LLM reescreve a resposta anterior</text><text class="s" x="182" y="682">"mais simples", "em tópicos" · sem nova busca</text>
+  <rect class="guard" x="170" y="704" width="314" height="50" rx="4"/><text class="t" x="182" y="724">Filtro de citações vs. anterior</text><text class="s" x="182" y="742">só cita o que a resposta original citava</text>
+  <path class="flow" d="M327 695 V703" marker-end="url(#a)"/>
+
+  <!-- 4 pipeline fixo -->
+  <rect class="zone" x="520" y="356" width="716" height="420" rx="6"/>
+  <circle class="nb" cx="540" cy="378" r="9"/><text class="nt" x="540" y="382" text-anchor="middle">4</text>
+  <text class="zl" x="556" y="382">PIPELINE FIXO</text><text class="h2" x="1220" y="382" text-anchor="end">1 busca · 1 escopo · 1 redação (ADR-0003)</text>
+
+  <rect class="box" x="560" y="396" width="340" height="52" rx="4"/><text class="t" x="572" y="417">Foco do documento (só expand)</text><text class="s" x="572" y="435">usa o PDF já citado na resposta anterior</text>
+  <rect class="guard" x="940" y="396" width="280" height="52" rx="4"/><text class="t" x="952" y="417">Sem PDF citado</text><text class="s" x="952" y="435">pede a norma · nenhuma busca</text>
+  <path class="flow" d="M901 422 H939" marker-end="url(#a)"/>
+
+  <path class="flow" d="M730 449 V467" marker-end="url(#a)"/>
+  <rect class="tool" x="560" y="468" width="340" height="64" rx="4"/><text class="tag" x="572" y="484" fill="#93803f">TOOL CALL · A</text><text class="t" x="572" y="502">Vector Search · acervo público</text><text class="c" x="572" y="520">HYBRID · k=5 · sem filtro de usuário</text>
+  <rect class="box" x="940" y="468" width="280" height="64" rx="4"/><text class="t" x="952" y="490">Foco não casou?</text><text class="s" x="952" y="508">refaz a busca aberta, sem foco</text><text class="s" x="952" y="522">limiar de score: null até medir</text>
+  <path class="flow" d="M901 500 H939" marker-end="url(#a)"/>
+
+  <path class="flow" d="M730 533 V551" marker-end="url(#a)"/>
+  <rect class="guard" x="560" y="552" width="340" height="52" rx="4"/><text class="t" x="572" y="573">0 trechos recuperados?</text><text class="s" x="572" y="591">guardrail antes de gastar LLM</text>
+  <rect class="guard" x="940" y="552" width="280" height="52" rx="4"/><text class="t" x="952" y="573">Recusa: sem base legal</text><text class="s" x="952" y="591">nada de memória do modelo</text>
+  <path class="flow" d="M901 578 H939" marker-end="url(#a)"/><text class="fl" x="906" y="572">sim</text>
+
+  <path class="flow" d="M730 605 V629" marker-end="url(#a)"/><text class="fl" x="738" y="621">não</text>
+  <rect class="tool" x="560" y="630" width="485" height="64" rx="4"/><text class="tag" x="572" y="646" fill="#93803f">TOOL CALL · C</text><text class="t" x="572" y="664">fn_compare_coverage(law_ids, upn) · Unity Catalog + RLS</text><text class="c" x="572" y="682">só com UPN e norma vinculada · UPN injetado pelo código</text>
+
+  <path class="flow" d="M730 695 V711" marker-end="url(#a)"/>
+  <rect class="llm" x="560" y="712" width="485" height="52" rx="4"/><text class="tag" x="572" y="727" fill="#3d4f5c">LLM CALL · REDAÇÃO ÚNICA</text><text class="s" x="572" y="745">trechos recortados + quadro de escopo · resumo 320 / detalhe 1024 tokens</text>
+  <text class="s" x="572" y="759" fill="#8e4b42">o LLM vê o quadro, nunca o UPN</text>
+
+  <!-- 5 guardrails -->
+  <path class="flow" d="M327 755 V786 H330 V835" marker-end="url(#a)"/>
+  <path class="flow" d="M730 765 V786 H330"/>
+  <rect class="zone" x="24" y="796" width="1232" height="124" rx="6"/>
+  <circle class="nb" cx="44" cy="818" r="9"/><text class="nt" x="44" y="822" text-anchor="middle">5</text>
+  <text class="zl" x="60" y="822">GUARDRAILS EM CÓDIGO</text><text class="h2" x="1240" y="822" text-anchor="end">aplicados depois que o modelo escreveu · prevalecem sobre o texto do LLM</text>
+  <rect class="guard" x="40" y="836" width="380" height="68" rx="4"/><text class="t" x="52" y="858">finalize_answer()</text><text class="s" x="52" y="876">sem trecho recuperado → recusa canônica</text><text class="c" x="52" y="893">legal · expand</text>
+  <rect class="guard" x="450" y="836" width="380" height="68" rx="4"/><text class="t" x="462" y="858">citation_post_filter()</text><text class="s" x="462" y="876">PDF ou lei sem lastro → [citação removida]</text><text class="c" x="462" y="893">legal · expand · reformulate</text>
+  <rect class="guard" x="860" y="836" width="380" height="68" rx="4"/><text class="t" x="872" y="858">scope_claim_post_filter()</text><text class="s" x="872" y="876">sem identidade/escopo → frase sai + aviso fixo</text><text class="c" x="872" y="893">legal · expand · reformulate</text>
+  <path class="flow" d="M421 870 H449" marker-end="url(#a)"/>
+  <path class="flow" d="M831 870 H859" marker-end="url(#a)"/>
+
+  <!-- 6 saída -->
+  <path class="flow" d="M1050 905 V928 H420 V973" marker-end="url(#a)"/>
+  <rect class="zone" x="24" y="936" width="1232" height="100" rx="6"/>
+  <circle class="nb" cx="44" cy="958" r="9"/><text class="nt" x="44" y="962" text-anchor="middle">6</text>
+  <text class="zl" x="60" y="962">RESPOSTA · AUDITÁVEL</text>
+  <rect class="box" x="40" y="974" width="760" height="50" rx="4"/><text class="t" x="52" y="994">output_text + custom_outputs</text><text class="c" x="52" y="1012">intent · answer_mode · citations · scope (in_scope ≠ compliant) · trace · request_id</text>
+  <rect class="llm" x="820" y="974" width="420" height="50" rx="4"/><text class="t" x="832" y="994">MLflow Tracing</text><text class="c" x="832" y="1012">route → retrieve → coverage → llm → guardrails</text>
+
+  <!-- legenda -->
+  <rect class="tool" x="24" y="1052" width="18" height="12" rx="2"/><text class="s" x="48" y="1062">tool call (Vector Search / função UC)</text>
+  <rect class="llm" x="270" y="1052" width="18" height="12" rx="2"/><text class="s" x="294" y="1062">chamada ao LLM</text>
+  <rect class="guard" x="410" y="1052" width="18" height="12" rx="2"/><text class="s" x="434" y="1062">guardrail em código</text>
+  <path class="upn" d="M570 1058 H610"/><text class="s" x="618" y="1062">identidade (UPN), fora do modelo</text>
+  <text class="h2" x="1256" y="1062" text-anchor="end">recusas e rotas diretas vão à resposta sem passar pelo LLM de redação</text>
+</svg>

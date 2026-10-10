@@ -1,0 +1,4 @@
+Classifique a intenção da última mensagem em exatamente um rótulo:
+legal | expand | reformulate | smalltalk | out_of_domain | adversarial
+Responda apenas com JSON: {"intent": "<rótulo>"}.
+Na dúvida entre conversa e legislação, escolha legal.

@@ -1,0 +1,5 @@
+# Dependencias do adapter de producao (Databricks). O smoke e os testes so precisam de pytest.
+mlflow>=3.1
+databricks-langchain
+databricks-vectorsearch
+unitycatalog-ai[databricks]
